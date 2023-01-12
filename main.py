@@ -1,6 +1,18 @@
 import pygame as pg
 
-def devide(top_left, botton_right, depth):
+def devide(top_left, botton_right, depth=4):
+    if depth != 0:
+        segment = (botton_right[0]-top_left[0])/3
+        pg.draw.rect(screen, (0,0,0), pg.Rect(top_left, botton_right), 10)
+
+        #devide(top_left, (top_left[0]+segment, top_left[1]+segment), depth-1)
+        devide((top_left[0]+segment,top_left[1]), (botton_right[0]-segment, top_left[1]+segment), depth-1)
+        #devide((top_left[0]+segment*2,top_left[1]), (botton_right[0], top_left[1]+segment), depth-1)
+        #devide((top_left[0],top_left[1]+segment), (top_left[0]+segment, segment), depth-1)
+        #devide((top_left[0]+segment*2,top_left[1]+segment), (botton_right[0], segment), depth-1)
+        #devide((top_left[0]+segment*2,top_left[0]+segment*2), botton_right, depth-1)
+        #devide((top_left[0],botton_right[1]-segment), (top_left[0]+segment, botton_right[1]), depth-1)
+
 
 
 pg.init()
@@ -18,6 +30,6 @@ while 1:
         if event.type == pg.QUIT:
             pg.quit()
 
-    pg.draw.rect(screen, (0,0,0), pg.Rect((start_1[0], start_1[0], start_2[1], start_2[1])))
+    devide(start_1, start_2)
 
     pg.display.flip()
