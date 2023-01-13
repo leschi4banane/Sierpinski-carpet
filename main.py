@@ -51,6 +51,9 @@ while 1:
             if event.key == pg.K_LEFT:
                 max_depth -= 1
 
+        if max_depth < 0:
+            max_depth = 0
+        
     if change:
         screen.fill((255,255,255))
         pg.display.set_caption(f"depth = {max_depth}")
