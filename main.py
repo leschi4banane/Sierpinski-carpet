@@ -17,7 +17,7 @@ def rainbow_color(value):
         return (255, 0, 255-pos)
 
 def devide(top_left, size, depth):
-    if depth != 0:
+    if depth > 0:
         segment = size/3
         color = rainbow_color(depth/max_depth)
 
@@ -25,9 +25,7 @@ def devide(top_left, size, depth):
         
         for x in range(3):
             for y in range(3):
-                if x==1 and y==1:
-                    pass
-                else:
+                if not(x==1 and y==1):
                     devide((top_left[0] + segment*x, top_left[1] + segment*y), segment, depth-1)
 
 pg.init()
@@ -38,16 +36,27 @@ screen.fill((255,255,255))
 start_1 = (0,0)
 start_2 = (800,800)
 
-max_depth = 6
+max_depth = 1
 
-
+change = True
 while 1:
     event_list = pg.event.get()
     for event in event_list:
         if event.type == pg.QUIT:
             pg.quit()
+        if event.type == pg.KEYDOWN:
+            change = True
+            if event.key == pg.K_RIGHT:
+                max_depth += 1
+            if event.key == pg.K_LEFT:
+                max_depth -= 1
 
-    devide(start_1, 800, max_depth)
-    max_depth = 6
+    if change:
+        screen.fill((255,255,255))
+        pg.display.set_caption(f"depth = {max_depth}")
 
-    pg.display.flip()
+        devide(start_1, 800, max_depth)
+
+        pg.display.flip()
+
+        change = False
